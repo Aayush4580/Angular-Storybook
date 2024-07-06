@@ -69,7 +69,7 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<app-custom-button buttonText=\"my custom button\"></app-custom-button>\n\n<router-outlet></router-outlet>\n"
+            "templateData": "<app-custom-button\n  buttonText=\"my custom button\"\n  [primary]=\"false\"\n  varient=\"primary\"\n></app-custom-button>\n\n<router-outlet></router-outlet>\n"
         },
         {
             "name": "ButtonComponent",
@@ -197,7 +197,7 @@
         },
         {
             "name": "CustomButtonComponent",
-            "id": "component-CustomButtonComponent-8440724363e82980e3623c94cc19c10c51215de13ac0d9fc1821d355b856634dfc2bf361bbc03c2494c9172b17c303867abff09b3ce3736e42b2c2dd133dd433",
+            "id": "component-CustomButtonComponent-06de55cf3615f155fa91c3ebd644f4d7f4eba3bac9cb4a8eaf532cd04b66bfeb67a7ce48d82e49a5f084b0154ef541880718aecd46f105f08204c0f913c9b0a7",
             "file": "src/app/custom-button/custom-button.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -206,7 +206,7 @@
             "providers": [],
             "selector": "app-custom-button",
             "styleUrls": [
-                "./custom-button.component.css"
+                "./custom-button.component.scss"
             ],
             "styles": [],
             "templateUrl": [
@@ -231,22 +231,40 @@
                     "line": 10,
                     "type": "boolean",
                     "decorators": []
-                }
-            ],
-            "outputsClass": [],
-            "propertiesClass": [],
-            "methodsClass": [
+                },
                 {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 16,
+                    "name": "varient",
+                    "defaultValue": "''",
                     "deprecated": false,
-                    "deprecationMessage": ""
+                    "deprecationMessage": "",
+                    "line": 14,
+                    "type": "string",
+                    "decorators": []
                 }
             ],
+            "outputsClass": [
+                {
+                    "name": "onPressButton",
+                    "defaultValue": "new EventEmitter()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 16,
+                    "type": "EventEmitter<any>"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "buttonClass",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                }
+            ],
+            "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
@@ -254,12 +272,12 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-custom-button',\n  templateUrl: './custom-button.component.html',\n  styleUrls: ['./custom-button.component.css'],\n})\nexport class CustomButtonComponent implements OnInit {\n  @Input()\n  primary: boolean = false;\n  @Input()\n  buttonText: string = '';\n\n  constructor() {}\n\n  ngOnInit(): void {}\n}\n",
+            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\n\n@Component({\n  selector: 'app-custom-button',\n  templateUrl: './custom-button.component.html',\n  styleUrls: ['./custom-button.component.scss'],\n})\nexport class CustomButtonComponent {\n  @Input()\n  primary: boolean = false;\n  @Input()\n  buttonText: string = '';\n  @Input()\n  varient: string = '';\n  @Output()\n  onPressButton: EventEmitter<any> = new EventEmitter();\n\n  buttonClass: string = '';\n  constructor() {}\n\n  get classes() {\n    let btnVarient: string = `btn-${this.varient}`;\n    return ['button-container', btnVarient];\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".button-container {\n  background-color: red;\n}\n",
-                    "styleUrl": "./custom-button.component.css"
+                    "data": ".button-container {\n  border: none;\n  color: white;\n  padding: 15px 32px;\n  text-align: center;\n  text-decoration: none;\n  display: inline-block;\n  font-size: 16px;\n  border-radius: 3px;\n}\n.btn-success {\n  background-color: #4bb543;\n}\n.btn-error {\n  background-color: #f83939;\n}\n.btn-primary {\n  background-color: #2196f3; /* Green */\n}\n",
+                    "styleUrl": "./custom-button.component.scss"
                 }
             ],
             "stylesData": "",
@@ -269,12 +287,20 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 12
+                "line": 18
             },
-            "implements": [
-                "OnInit"
-            ],
-            "templateData": "<button class=\"button-container\">{{ buttonText }}</button>\n"
+            "accessors": {
+                "classes": {
+                    "name": "classes",
+                    "getSignature": {
+                        "name": "classes",
+                        "type": "",
+                        "returnType": "",
+                        "line": 21
+                    }
+                }
+            },
+            "templateData": "<button [ngClass]=\"classes\">\n  {{ buttonText }}\n</button>\n"
         },
         {
             "name": "HeaderComponent",
@@ -428,47 +454,6 @@
                 }
             ],
             "stylesData": ""
-        },
-        {
-            "name": "Text",
-            "id": "component-Text-e3c161ea08036df61557c042b9912043658d19db854b4f2b28f177345e5ae364854c3152b8d893a8f9df5c910b7ea306bc779c82d59810db409276b9f123ca15",
-            "file": "src/stories/Text.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "storybook-text",
-            "styleUrls": [],
-            "styles": [],
-            "template": "<div>   {{ text }}\n </div>",
-            "templateUrl": [],
-            "viewProviders": [],
-            "inputsClass": [
-                {
-                    "name": "text",
-                    "defaultValue": "''",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 12,
-                    "type": "string",
-                    "decorators": []
-                }
-            ],
-            "outputsClass": [],
-            "propertiesClass": [],
-            "methodsClass": [],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { Component, Input } from '@angular/core';\n\n@Component({\n  selector: 'storybook-text',\n  template: ` <div>\n    {{ text }}\n  </div>`,\n  styleUrls: [],\n})\nexport default class Text {\n  @Input()\n  text: string = '';\n}\n",
-            "assetsDirs": [],
-            "styleUrlsData": "",
-            "stylesData": ""
         }
     ],
     "modules": [
@@ -563,16 +548,6 @@
     "miscellaneous": {
         "variables": [
             {
-                "name": "buttonText",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/custom-button/custom-button.component.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "string",
-                "defaultValue": "'test btn'"
-            },
-            {
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -586,16 +561,6 @@
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  production: false\n}"
-            },
-            {
-                "name": "environment",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/environments/environment.prod.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -603,60 +568,60 @@
                 "defaultValue": "{\n  production: true\n}"
             },
             {
-                "name": "LoggedIn",
+                "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Header.stories.ts",
+                "file": "src/environments/environment.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({})"
+                "type": "object",
+                "defaultValue": "{\n  production: false\n}"
             },
             {
-                "name": "LoggedIn",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/Page.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "LoggedOut",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/Header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "LoggedOut",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/Page.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "primary",
+                "name": "Error",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/custom-button/custom-button.component.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "true"
+                "defaultValue": "Template.bind({})"
             },
             {
-                "name": "Primary",
+                "name": "LoggedIn",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Button.stories.ts",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "LoggedIn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "LoggedOut",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "LoggedOut",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -676,7 +641,17 @@
                 "name": "Primary",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Text.stories.ts",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/custom-button/custom-button.component.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -692,10 +667,20 @@
                 "type": "literal type"
             },
             {
+                "name": "Success",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/custom-button/custom-button.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Button.stories.ts",
+                "file": "src/stories/Custom.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<CustomButtonComponent>",
@@ -705,7 +690,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Custom.stories.ts",
+                "file": "src/stories/Button.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<CustomButtonComponent>",
@@ -735,39 +720,17 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Text.stories.ts",
+                "file": "src/app/custom-button/custom-button.component.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<Text>",
-                "defaultValue": "(args: Text) => ({\n  props: args,\n})"
+                "type": "Story<CustomButtonComponent>",
+                "defaultValue": "(\n  args: CustomButtonComponent\n) => ({\n  props: args,\n})"
             }
         ],
         "functions": [],
         "typealiases": [],
         "enumerations": [],
         "groupedVariables": {
-            "src/app/custom-button/custom-button.component.stories.ts": [
-                {
-                    "name": "buttonText",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/custom-button/custom-button.component.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "string",
-                    "defaultValue": "'test btn'"
-                },
-                {
-                    "name": "primary",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/custom-button/custom-button.component.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "true"
-                }
-            ],
             "src/test.ts": [
                 {
                     "name": "context",
@@ -789,6 +752,18 @@
                     "type": "literal type"
                 }
             ],
+            "src/environments/environment.prod.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.prod.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  production: true\n}"
+                }
+            ],
             "src/environments/environment.ts": [
                 {
                     "name": "environment",
@@ -801,16 +776,46 @@
                     "defaultValue": "{\n  production: false\n}"
                 }
             ],
-            "src/environments/environment.prod.ts": [
+            "src/app/custom-button/custom-button.component.stories.ts": [
                 {
-                    "name": "environment",
+                    "name": "Error",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/environments/environment.prod.ts",
+                    "file": "src/app/custom-button/custom-button.component.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  production: true\n}"
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/custom-button/custom-button.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Success",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/custom-button/custom-button.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/custom-button/custom-button.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<CustomButtonComponent>",
+                    "defaultValue": "(\n  args: CustomButtonComponent\n) => ({\n  props: args,\n})"
                 }
             ],
             "src/stories/Header.stories.ts": [
@@ -877,28 +882,6 @@
                     "defaultValue": "(args: Page) => ({\n  props: args,\n})"
                 }
             ],
-            "src/stories/Button.stories.ts": [
-                {
-                    "name": "Primary",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Button.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Button.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<CustomButtonComponent>",
-                    "defaultValue": "(\n  args: CustomButtonComponent\n) => ({\n  props: args,\n})"
-                }
-            ],
             "src/stories/Custom.stories.ts": [
                 {
                     "name": "Primary",
@@ -921,12 +904,12 @@
                     "defaultValue": "(\n  args: CustomButtonComponent\n) => ({\n  props: args,\n})"
                 }
             ],
-            "src/stories/Text.stories.ts": [
+            "src/stories/Button.stories.ts": [
                 {
                     "name": "Primary",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/stories/Text.stories.ts",
+                    "file": "src/stories/Button.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
@@ -936,11 +919,11 @@
                     "name": "Template",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/stories/Text.stories.ts",
+                    "file": "src/stories/Button.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "Story<Text>",
-                    "defaultValue": "(args: Text) => ({\n  props: args,\n})"
+                    "type": "Story<CustomButtonComponent>",
+                    "defaultValue": "(\n  args: CustomButtonComponent\n) => ({\n  props: args,\n})"
                 }
             ]
         },
@@ -980,7 +963,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "buttonText",
+                "name": "Error",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -990,7 +973,27 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "primary",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/custom-button/custom-button.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Success",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/custom-button/custom-button.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -1001,7 +1004,7 @@
                 "linktype": "component",
                 "name": "CustomButtonComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
@@ -1116,35 +1119,6 @@
             },
             {
                 "filePath": "src/stories/Page.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Template",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Text.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "Text",
-                "coveragePercent": 0,
-                "coverageCount": "0/2",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Text.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Primary",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Text.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
